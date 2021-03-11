@@ -1,14 +1,23 @@
-import React from 'react';
-import Chat from './Components/Chat/Chat';
-import SideBar from './Components/Sidebar/SideBar';
-
+import React from "react";
+import { useSelector } from "react-redux";
+import Chat from "./Components/Chat/Chat";
+import Login from "./Components/Login/Login";
+import SideBar from "./Components/Sidebar/SideBar";
+import { selectUser } from "./features/userSlice";
 function App() {
+  const user = useSelector(selectUser);
   return (
     <div className="app">
-      {/* sideBar */}
-      <SideBar/>
-      {/* Chat */}
-      <Chat/>
+      {user ? (
+        <>
+          {/* sideBar */}
+          <SideBar />
+          {/* Chat */}
+          <Chat />
+        </>
+      ) : (
+        <Login/>
+      )}
     </div>
   );
 }
