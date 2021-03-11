@@ -1,15 +1,19 @@
 import React from 'react';
 import { Button } from '@material-ui/core'
-
+import {auth,provider} from '../../firebase'
 const Login = () => {
+    const singIn = () => {
+        auth.signInWithPopup(provider)
+        .catch(error => alert(error.message))
+    }
     return (
         <div className="login">
             
         <div className="login__logo">
-            <img src="https://upload.wikimedia.org/wikipedia/sco/thumb/9/98/Discord_logo.svg/800px-Discord_logo.svg.png" alt="" srcset=""/>
+            <img src={process.env.PUBLIC_URL + "/pic/logo.png" } alt="" srcset=""/>
         </div>
 
-        <Button onClick>SignIn</Button>
+        <Button onClick={singIn}>SignIn</Button>
 
     </div>
     );

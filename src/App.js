@@ -1,11 +1,29 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Chat from "./Components/Chat/Chat";
 import Login from "./Components/Login/Login";
 import SideBar from "./Components/Sidebar/SideBar";
-import { selectUser } from "./features/userSlice";
+import { selectUser, login, logout } from "./features/userSlice";
+import { auth } from "./firebase";
 function App() {
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        dispatch(
+          login({
+            uid: authUser.uid,
+            photo: authUser.photoURL,
+            email: authUser.email,
+            displayName: authUser.displayName,
+          })
+        );
+      } else {
+        dispatch(logout());
+      }
+    });
+  }, [dispatch]);
   return (
     <div className="app">
       {user ? (
@@ -16,7 +34,7 @@ function App() {
           <Chat />
         </>
       ) : (
-        <Login/>
+        <Login />
       )}
     </div>
   );
